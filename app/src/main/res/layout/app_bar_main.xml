@@ -6,15 +6,15 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/Theme.JokerAppDev.AppbarOverlay">
+        android:theme="@style/Theme.JokerAppDev.AppbarOverlay"
+        android:layout_height="wrap_content">
 
-        <Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:popupTheme="@style/Theme.JokerAppDev.AppbarOverlay"
+            android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            android:layout_height="?attr/actionBarSize" />
+            app:popupTheme="@style/Theme.JokerAppDev.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -22,11 +22,11 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:contentDescription="@null"
-        app:srcCompat="@drawable/baseline_refresh_24"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        app:srcCompat="@drawable/baseline_refresh_24" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
