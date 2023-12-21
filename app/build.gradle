@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion "30.0.3"
 
     defaultConfig {
@@ -49,4 +49,6 @@ dependencies {
     def groupie_version = "2.9.0"
 
     implementation "com.github.lisawray.groupie:groupie:$groupie_version"
+
+    implementation "androidx.core:core-splashscreen:1.0.0-alpha01"
 }
