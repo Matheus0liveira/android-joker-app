@@ -1,10 +1,10 @@
 package co.tiagoaguiar.tutorial.jokerappdev.presentation
 
-import co.tiagoaguiar.tutorial.jokerappdev.view.CategoryItem
+import co.tiagoaguiar.tutorial.jokerappdev.model.Category
 
-interface IHome {
+interface HomeView {
 
-    fun showCategories(categories: List<CategoryItem>)
+    fun showCategories(categories: List<Category>)
     fun showProgress()
     fun hideProgress()
 

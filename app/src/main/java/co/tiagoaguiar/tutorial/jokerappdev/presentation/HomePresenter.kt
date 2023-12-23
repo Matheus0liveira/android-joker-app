@@ -1,39 +1,34 @@
 package co.tiagoaguiar.tutorial.jokerappdev.presentation
 
-import android.os.Handler
-import android.os.Looper
+import co.tiagoaguiar.tutorial.jokerappdev.data.CategoryRemoteDataSource
+import co.tiagoaguiar.tutorial.jokerappdev.data.ListCategoryCallback
 import co.tiagoaguiar.tutorial.jokerappdev.model.Category
 import co.tiagoaguiar.tutorial.jokerappdev.view.CategoryItem
 
-class HomePresenter(private val view: IHome) {
+class HomePresenter(
+    private val view: HomeView,
+    private val dataSource: CategoryRemoteDataSource = CategoryRemoteDataSource()
+) : ListCategoryCallback {
     fun findAllCategories() {
         view.showProgress()
-        fakeRequest()
+        dataSource.findAllCategories(this)
 
     }
 
-    private fun onError(message: String) {
-        view.showFailure(message)
+
+    override fun onError(response: String) {
+        view.showFailure(response)
         view.hideProgress()
     }
 
-    private fun onSuccess(response: List<Category>) {
-
-        view.showCategories(response.map { CategoryItem(it) })
+    override fun onComplete() {
         view.hideProgress()
     }
 
+    override fun onSuccess(response: List<String>) {
 
-    private fun fakeRequest() {
-        Handler(Looper.getMainLooper()).postDelayed({
-            val response = arrayListOf(
-                Category("Categoria 1", 0xfffafa6e),
-                Category("Categoria 2", 0xffe0f470),
-                Category("Categoria 3", 0xffc7ed73),
-                Category("Categoria 4", 0xffaee678),
-            )
-//            onSuccess(response)
-            onError("FERROU TUDO PAIÇEIRU")
-        }, 2000)
+        view.showCategories(response.map { Category(it, 0xfffafa6e) })
+        view.hideProgress()
     }
+
 }

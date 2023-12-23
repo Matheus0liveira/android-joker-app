@@ -11,11 +11,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.tiagoaguiar.tutorial.jokerappdev.R
+import co.tiagoaguiar.tutorial.jokerappdev.data.CategoryRemoteDataSource
+import co.tiagoaguiar.tutorial.jokerappdev.data.ListCategoryCallback
+import co.tiagoaguiar.tutorial.jokerappdev.model.Category
 import co.tiagoaguiar.tutorial.jokerappdev.presentation.HomePresenter
-import co.tiagoaguiar.tutorial.jokerappdev.presentation.IHome
+import co.tiagoaguiar.tutorial.jokerappdev.presentation.HomeView
 import com.xwray.groupie.GroupieAdapter
 
-class HomeFragment : Fragment(), IHome {
+class HomeFragment : Fragment(), HomeView {
     private lateinit var presenter: HomePresenter
     private lateinit var adapter: GroupieAdapter
     private lateinit var progressBar: ProgressBar
@@ -36,21 +39,20 @@ class HomeFragment : Fragment(), IHome {
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        progressBar = view.findViewById(R.id.progress_bar)
-        val rv = view.findViewById<RecyclerView>(R.id.rv_main)
-        presenter.findAllCategories()
-
         adapter = GroupieAdapter()
+        val rv = view.findViewById<RecyclerView>(R.id.rv_main)
         rv.layoutManager = LinearLayoutManager(requireContext())
         rv.adapter = adapter
+        progressBar = view.findViewById(R.id.progress_bar)
+        presenter.findAllCategories()
+
 
         adapter.notifyDataSetChanged()
-
-
     }
 
-    override fun showCategories(categories: List<CategoryItem>) {
-        adapter.addAll(categories)
+    override fun showCategories(categories: List<Category>) {
+        val result = categories.map { CategoryItem(it) }
+        adapter.addAll(result)
         adapter.notifyDataSetChanged()
 
     }
