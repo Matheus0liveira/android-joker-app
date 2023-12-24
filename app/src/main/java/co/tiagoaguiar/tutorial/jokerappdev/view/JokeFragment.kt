@@ -15,6 +15,7 @@ import co.tiagoaguiar.tutorial.jokerappdev.model.Joke
 import co.tiagoaguiar.tutorial.jokerappdev.presentation.JokePresenter
 import co.tiagoaguiar.tutorial.jokerappdev.presentation.JokeView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.squareup.picasso.Picasso
 
 class JokeFragment : Fragment(), JokeView {
     companion object {
@@ -36,8 +37,6 @@ class JokeFragment : Fragment(), JokeView {
         super.onViewCreated(view, savedInstanceState)
 
         val categoryName = arguments?.getString(CATEGORY_KEY)
-
-
 
         txtView = view.findViewById(R.id.txt_joke)
         imgView = view.findViewById(R.id.img_joke)
@@ -65,6 +64,7 @@ class JokeFragment : Fragment(), JokeView {
 
     override fun showJoke(joke: Joke) {
         txtView.text = joke.text
+        Picasso.get().load(joke.iconUrl).into(imgView)
 
 
     }
