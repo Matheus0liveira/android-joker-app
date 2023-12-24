@@ -12,8 +12,8 @@ interface ChuckNorrisAPI {
     fun findAllCategories(@Query("apiKey") apiKey: String = HttpClient.API_KEY): Call<List<String>>
 
     @GET("jokes/random")
-    fun findBy(
-        @Query("category") category: String,
+    fun findRandom(
+        @Query("category") category: String? = null,
         @Query("apiKey") apiKey: String = HttpClient.API_KEY,
     ): Call<Joke>
 }
