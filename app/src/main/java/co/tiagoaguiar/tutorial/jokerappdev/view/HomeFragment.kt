@@ -8,19 +8,19 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.tiagoaguiar.tutorial.jokerappdev.R
-import co.tiagoaguiar.tutorial.jokerappdev.data.CategoryRemoteDataSource
-import co.tiagoaguiar.tutorial.jokerappdev.data.ListCategoryCallback
 import co.tiagoaguiar.tutorial.jokerappdev.model.Category
 import co.tiagoaguiar.tutorial.jokerappdev.presentation.HomePresenter
 import co.tiagoaguiar.tutorial.jokerappdev.presentation.HomeView
 import com.xwray.groupie.GroupieAdapter
 
-class HomeFragment : Fragment(), HomeView {
+class HomeFragment : Fragment(),
+    HomeView {
     private lateinit var presenter: HomePresenter
-    private lateinit var adapter: GroupieAdapter
+    private val adapter = GroupieAdapter()
     private lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,15 +39,23 @@ class HomeFragment : Fragment(), HomeView {
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = GroupieAdapter()
+
         val rv = view.findViewById<RecyclerView>(R.id.rv_main)
         rv.layoutManager = LinearLayoutManager(requireContext())
         rv.adapter = adapter
         progressBar = view.findViewById(R.id.progress_bar)
-        presenter.findAllCategories()
+
+        if (adapter.itemCount == 0) presenter.findAllCategories()
 
 
         adapter.notifyDataSetChanged()
+
+        adapter.setOnItemClickListener { item, _ ->
+            val bundle = Bundle()
+            val categoryName = (item as CategoryItem).category.name
+            bundle.putString(JokeFragment.CATEGORY_KEY, categoryName)
+            findNavController().navigate(R.id.action_nav_home_to_nav_joke, bundle)
+        }
     }
 
     override fun showCategories(categories: List<Category>) {
